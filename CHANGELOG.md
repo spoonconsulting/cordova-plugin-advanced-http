@@ -1,5 +1,17 @@
 # Changelog
 
+# 3.3.1
+
+- Fixed #427: missing connection check on Android (thanks moshe5745)
+- Fixed #459: namespace collision on iOS when another plugin is also using AFNetworking (thanks zafirskthelifehacker)
+- Fixed #429: intermediate CA certs are not respected on iOS when using client certs (thanks pavrda)
+- Fixed #444: errors are not handled when invalid header values are applied on browser (thanks @MobisysGmbH)
+- Fixed #441: sensible data can be cached in cache.db on iOS (thanks dtarnawsky)
+
+# 3.3.0
+
+- Feature #451: expose response object on `downloadFile()` (thanks to @MobisysGmbH)
+
 # 3.2.2
 
 - Fixed #438: requests not working correctly on browser platform because request options are not processed correctly

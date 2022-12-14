@@ -1,17 +1,17 @@
 {
   "name": "cordova-plugin-advanced-http",
-  "version": "3.2.2",
+  "version": "3.3.1",
   "description": "Cordova / Phonegap plugin for communicating with HTTP servers using SSL pinning",
   "scripts": {
-    "updatecert": "node ./scripts/update-e2e-server-cert.js && node ./scripts/update-e2e-client-cert.js",
-    "buildbrowser": "./scripts/build-test-app.sh --browser",
-    "buildandroid": "./scripts/build-test-app.sh --android --emulator",
-    "buildios": "./scripts/build-test-app.sh --ios --emulator",
-    "testandroid": "npm run updatecert && npm run buildandroid && ./scripts/test-app.sh --android --emulator",
-    "testios": "npm run updatecert && npm run buildios && ./scripts/test-app.sh --ios --emulator",
-    "testapp": "npm run testandroid && npm run testios",
-    "testjs": "mocha ./test/js-specs.js",
-    "test": "npm run testjs && npm run testapp",
+    "update:cert": "node ./scripts/update-e2e-server-cert.js && node ./scripts/update-e2e-client-cert.js",
+    "build:browser": "./scripts/build-test-app.sh --browser",
+    "build:android": "./scripts/build-test-app.sh --android --emulator",
+    "build:ios": "./scripts/build-test-app.sh --ios --emulator",
+    "test:android": "npm run update:cert && npm run build:android && ./scripts/test-app.sh --android --emulator",
+    "test:ios": "npm run update:cert && npm run build:ios && ./scripts/test-app.sh --ios --emulator",
+    "test:app": "npm run test:android && npm run test:ios",
+    "test:js": "mocha ./test/js-specs.js",
+    "test": "npm run test:js && npm run test:app",
     "release": "npm run test && ./scripts/release.sh"
   },
   "cordova": {
@@ -58,12 +58,12 @@
   },
   "homepage": "https://github.com/silkimen/cordova-plugin-advanced-http#readme",
   "devDependencies": {
-    "chai": "4.2.0",
+    "chai": "4.3.6",
     "colors": "1.4.0",
-    "cordova": "10.0.0",
-    "mocha": "8.2.0",
-    "umd-tough-cookie": "2.4.3",
-    "wd": "1.12.1",
+    "cordova": "11.0.0",
+    "mocha": "9.2.2",
+    "umd-tough-cookie": "3.0.0",
+    "wd": "1.14.0",
     "xml2js": "0.4.23"
   }
 }

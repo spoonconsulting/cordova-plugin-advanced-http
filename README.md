@@ -163,7 +163,7 @@ cordova.plugin.http.getCookieString(url);
 ```
 
 ### setCookie
-Add a custom cookie. Takes a URL, a cookie string and an options object. See [ToughCookie documentation](https://github.com/salesforce/tough-cookie#setcookiecookieorstring-currenturl-options-cberrcookie) for allowed options.
+Add a custom cookie. Takes a URL, a cookie string and an options object. See [ToughCookie documentation](https://github.com/salesforce/tough-cookie#setcookiecookieorstring-currenturl-options-cberrcookie) for allowed options. Cookie will persist until removed with [removeCookies](#removecookies) or [clearCookies](#clearcookies).
 
 ```js
 cordova.plugin.http.setCookie(url, cookie, options);
@@ -414,21 +414,32 @@ cordova.plugin.http.uploadFile("https://google.com/", {
 ```
 
 ### downloadFile<a name="downloadFile"></a>
-Downloads a file and saves it to the device.  Takes a URL, parameters, headers, and a filePath.  See [post](#post) documentation for details on what is returned on failure.  On success this function returns a cordova [FileEntry object](http://cordova.apache.org/docs/en/3.3.0/cordova_file_file.md.html#FileEntry).
+Downloads a file and saves it to the device.  Takes a URL, parameters, headers, and a filePath.  See [post](#post) documentation for details on what is returned on failure.  On success this function returns a cordova [FileEntry object](http://cordova.apache.org/docs/en/3.3.0/cordova_file_file.md.html#FileEntry) as first and the response object as second parameter.
 
 ```js
-cordova.plugin.http.downloadFile("https://google.com/", {
-  id: '12',
-  message: 'test'
-}, { Authorization: 'OAuth2: token' }, 'file:///somepicture.jpg', function(entry) {
-  // prints the filename
-  console.log(entry.name);
+cordova.plugin.http.downloadFile(
+  "https://google.com/",
+  { id: '12', message: 'test' },
+  { Authorization: 'OAuth2: token' },
+  'file:///somepicture.jpg',
+  // success callback
+  function(entry, response) {
+    // prints the filename
+    console.log(entry.name);
 
-  // prints the filePath
-  console.log(entry.fullPath);
-}, function(response) {
-  console.error(response.error);
-});
+    // prints the filePath
+    console.log(entry.fullPath);
+
+    // prints all header key/value pairs
+    Object.keys(response.headers).forEach(function (key) {
+      console.log(key, response.headers[key]);
+    });
+  },
+  // error callback
+  function(response) {
+    console.error(response.error);
+  }
+);
 ```
 
 ### abort<a name="abort"></a>
@@ -445,12 +456,15 @@ If the request is still in progress, the request's `failure` callback will be in
 var requestId = cordova.plugin.http.downloadFile("https://google.com/", {
   id: '12',
   message: 'test'
-}, { Authorization: 'OAuth2: token' }, 'file:///somepicture.jpg', function(entry) {
+}, { Authorization: 'OAuth2: token' }, 'file:///somepicture.jpg', function(entry, response) {
   // prints the filename
   console.log(entry.name);
 
   // prints the filePath
   console.log(entry.fullPath);
+
+  // prints the status code
+  console.log(response.status);
 }, function(response) {
   // if request was actually aborted, failure callback with status -8 will be invoked
   if(response.status === -8){
@@ -512,7 +526,7 @@ First, install current package with `npm install` to fetch dev dependencies.
 
 Then, to execute Javascript tests:
 ```shell
-npm run testjs
+npm run test:js
 ```
 
 And, to execute E2E tests:
@@ -523,8 +537,8 @@ And, to execute E2E tests:
 - run
   -  updating client and server certificates, building test app, and running e2e tests
 ```shell
-npm run testandroid
-npm run testios
+npm run test:android
+npm run test:ios
 ```
 
 ## Contribute & Develop
