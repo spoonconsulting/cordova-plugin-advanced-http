@@ -121,6 +121,8 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     String responseType = args.getString(5);
     Integer reqId = args.getInt(6);
 
+    Log.d("Native ZAFIR", args.toString());
+
     CordovaObservableCallbackContext observableCallbackContext = new CordovaObservableCallbackContext(callbackContext, reqId);
 
     CordovaHttpOperation request = new CordovaHttpOperation(method.toUpperCase(), url, headers, connectTimeout, readTimeout,
