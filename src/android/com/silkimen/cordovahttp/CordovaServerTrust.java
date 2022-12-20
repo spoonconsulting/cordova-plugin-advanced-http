@@ -27,14 +27,16 @@ class CordovaServerTrust implements Runnable {
   private final HostnameVerifier noOpVerifier;
 
   private String mode;
+  private String certificatePath;
   private Activity activity;
   private TLSConfiguration tlsConfiguration;
   private CallbackContext callbackContext;
 
-  public CordovaServerTrust(final String mode, final Activity activity, final TLSConfiguration configContainer,
+  public CordovaServerTrust(final JSONArray args, final Activity activity, final TLSConfiguration configContainer,
       final CallbackContext callbackContext) {
 
-    this.mode = mode;
+    this.mode = args.getString(0);
+    this.certificatePath = args.getString(1);
     this.activity = activity;
     this.tlsConfiguration = configContainer;
     this.callbackContext = callbackContext;
@@ -71,6 +73,7 @@ class CordovaServerTrust implements Runnable {
         this.tlsConfiguration.setTrustManagers(this.noOpTrustManagers);
       } else if ("pinned".equals(this.mode)) {
         this.tlsConfiguration.setHostnameVerifier(null);
+        Log.d("Cordova-Plugin-HTTP certificatePath", this.certificatePath);
         this.tlsConfiguration.setTrustManagers(this.getTrustManagers(this.getCertsFromBundle("www/certificates")));
       } else {
         this.tlsConfiguration.setHostnameVerifier(null);

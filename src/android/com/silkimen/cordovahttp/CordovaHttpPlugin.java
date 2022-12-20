@@ -203,7 +203,7 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
   }
 
   private boolean setServerTrustMode(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-    CordovaServerTrust runnable = new CordovaServerTrust(args.getString(0), this.cordova.getActivity(),
+    CordovaServerTrust runnable = new CordovaServerTrust(args, this.cordova.getActivity(),
         this.tlsConfiguration, callbackContext);
 
     cordova.getThreadPool().execute(runnable);
