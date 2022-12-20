@@ -155,7 +155,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 @implementation SM_AFSecurityPolicy
 
-+ (NSSet *)certificatesInBundle:(NSBundle *)bundle {
++ (NSSet *)certificatesInBundle:(NSBundle *)bundle withCertificatesPath:(NSString *)certificatesPath {
     NSArray *paths = [bundle pathsForResourcesOfType:@"cer" inDirectory:@"www/certificates"];
     NSMutableSet *certificates = [NSMutableSet setWithCapacity:[paths count]];
 
@@ -167,12 +167,12 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     return [NSSet setWithSet:certificates];
 }
 
-+ (NSSet *)defaultPinnedCertificates {
++ (NSSet *)defaultPinnedCertificates:(NSString *)certificatesPath {
     static NSSet *_defaultPinnedCertificates = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        _defaultPinnedCertificates = [self certificatesInBundle:bundle];
+        _defaultPinnedCertificates = [self certificatesInBundle:bundle withCertificatesPath:certificatesPath];
     });
 
     return _defaultPinnedCertificates;
@@ -185,11 +185,11 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     return securityPolicy;
 }
 
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode {
-    return [self policyWithPinningMode:pinningMode withPinnedCertificates:[self defaultPinnedCertificates]];
++ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withCertificatesPath:(NSString *)certificatesPath {
+    return [self policyWithPinningMode:pinningMode withPinnedCertificates:[self defaultPinnedCertificates:certificatesPath] withCertificatesPath:certificatesPath];
 }
 
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withPinnedCertificates:(NSSet *)pinnedCertificates {
++ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withPinnedCertificates:(NSSet *)pinnedCertificates withCertificatesPath:(NSString *)certificatesPath {
     SM_AFSecurityPolicy *securityPolicy = [[self alloc] init];
     securityPolicy.SSLPinningMode = pinningMode;
 

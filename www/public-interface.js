@@ -131,10 +131,10 @@ module.exports = function init(exec, cookieHandler, urlUtil, helpers, globalConf
     globalConfigs.followRedirect = helpers.checkFollowRedirectValue(follow);
   }
 
-  function setServerTrustMode(mode, success, failure) {
+  function setServerTrustMode(mode, certificatesPath, success, failure) {
     helpers.handleMissingCallbacks(success, failure);
 
-    return exec(success, failure, 'CordovaHttpPlugin', 'setServerTrustMode', [helpers.checkSSLCertMode(mode)]);
+    return exec(success, failure, 'CordovaHttpPlugin', 'setServerTrustMode', [helpers.checkSSLCertMode(mode), certificatesPath]);
   }
 
   function setClientAuthMode() {

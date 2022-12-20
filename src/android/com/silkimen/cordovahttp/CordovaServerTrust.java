@@ -9,6 +9,8 @@ import java.security.cert.X509Certificate;
 import com.silkimen.http.TLSConfiguration;
 
 import org.apache.cordova.CallbackContext;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.util.Log;
@@ -27,14 +29,16 @@ class CordovaServerTrust implements Runnable {
   private final HostnameVerifier noOpVerifier;
 
   private String mode;
+  private String certificatesPath;
   private Activity activity;
   private TLSConfiguration tlsConfiguration;
   private CallbackContext callbackContext;
 
-  public CordovaServerTrust(final String mode, final Activity activity, final TLSConfiguration configContainer,
-      final CallbackContext callbackContext) {
+  public CordovaServerTrust(final JSONArray args, final Activity activity, final TLSConfiguration configContainer,
+      final CallbackContext callbackContext) throws JSONException {
 
-    this.mode = mode;
+    this.mode = args.getString(0);
+    this.certificatesPath = args.getString(1);
     this.activity = activity;
     this.tlsConfiguration = configContainer;
     this.callbackContext = callbackContext;
@@ -71,7 +75,11 @@ class CordovaServerTrust implements Runnable {
         this.tlsConfiguration.setTrustManagers(this.noOpTrustManagers);
       } else if ("pinned".equals(this.mode)) {
         this.tlsConfiguration.setHostnameVerifier(null);
-        this.tlsConfiguration.setTrustManagers(this.getTrustManagers(this.getCertsFromBundle("www/certificates")));
+        if (this.certificatesPath != null) {
+          this.tlsConfiguration.setTrustManagers(this.getTrustManagers(this.getCertsFromBundle(certificatesPath)));
+        } else {
+          this.tlsConfiguration.setTrustManagers(this.getTrustManagers(this.getCertsFromBundle("www/certificates")));
+        }
       } else {
         this.tlsConfiguration.setHostnameVerifier(null);
         this.tlsConfiguration.setTrustManagers(this.getTrustManagers(this.getCertsFromKeyStore("AndroidCAStore")));
