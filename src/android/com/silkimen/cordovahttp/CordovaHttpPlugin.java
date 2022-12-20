@@ -120,9 +120,6 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     boolean followRedirect = args.getBoolean(4);
     String responseType = args.getString(5);
     Integer reqId = args.getInt(6);
-    String certificatePath = args.getString(7);
-
-    Log.d("Native ZAFIR", certificatePath);
 
     CordovaObservableCallbackContext observableCallbackContext = new CordovaObservableCallbackContext(callbackContext, reqId);
 
@@ -146,7 +143,6 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     boolean followRedirect = args.getBoolean(6);
     String responseType = args.getString(7);
     Integer reqId = args.getInt(8);
-    String certificatePath = args.getString(9);
 
     CordovaObservableCallbackContext observableCallbackContext = new CordovaObservableCallbackContext(callbackContext, reqId);
 
@@ -168,7 +164,6 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     boolean followRedirect = args.getBoolean(6);
     String responseType = args.getString(7);
     Integer reqId = args.getInt(8);
-    String certificatePath = args.getString(9);
 
     CordovaObservableCallbackContext observableCallbackContext = new CordovaObservableCallbackContext(callbackContext, reqId);
 
@@ -188,7 +183,6 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     int readTimeout = args.getInt(4) * 1000;
     boolean followRedirect = args.getBoolean(5);
     Integer reqId = args.getInt(6);
-    String certificatePath = args.getString(7);
 
     CordovaObservableCallbackContext observableCallbackContext = new CordovaObservableCallbackContext(callbackContext, reqId);
 
