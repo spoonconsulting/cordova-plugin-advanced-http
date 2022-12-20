@@ -28,7 +28,7 @@
 }
 
 - (void)pluginInitialize {
-    securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone withCertificatesPath:nil];
     reqDict = [NSMutableDictionary dictionary];
 }
 
@@ -351,17 +351,18 @@
 
 - (void)setServerTrustMode:(CDVInvokedUrlCommand*)command {
     NSString *certMode = [command.arguments objectAtIndex:0];
+    NSString *certificatesPath = [command.arguments objectAtIndex:1];
 
     if ([certMode isEqualToString: @"default"] || [certMode isEqualToString: @"legacy"]) {
-        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone withCertificatesPath:certificatesPath];
         securityPolicy.allowInvalidCertificates = NO;
         securityPolicy.validatesDomainName = YES;
     } else if ([certMode isEqualToString: @"nocheck"]) {
-        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone withCertificatesPath:certificatesPath];
         securityPolicy.allowInvalidCertificates = YES;
         securityPolicy.validatesDomainName = NO;
     } else if ([certMode isEqualToString: @"pinned"]) {
-        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        securityPolicy = [SM_AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate withCertificatesPath:certificatesPath];
         securityPolicy.allowInvalidCertificates = NO;
         securityPolicy.validatesDomainName = YES;
     }

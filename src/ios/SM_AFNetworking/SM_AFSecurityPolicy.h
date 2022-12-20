@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return The certificates included in the given bundle.
  */
-+ (NSSet <NSData *> *)certificatesInBundle:(NSBundle *)bundle;
++ (NSSet <NSData *> *)certificatesInBundle:(NSBundle *)bundle withCertificatesPath:(NSString *)certificatesPath;
 
 ///-----------------------------------------
 /// @name Getting Specific Security Policies
@@ -89,13 +89,13 @@ NS_ASSUME_NONNULL_BEGIN
 ///---------------------
 
 /**
- Creates and returns a security policy with the specified pinning mode.
+ Creates and returns a security policy with the specified pinning mode and specified certificates path.
 
  @param pinningMode The SSL pinning mode.
 
  @return A new security policy.
  */
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode;
++ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withCertificatesPath:(NSString *)certificatesPath;
 
 /**
  Creates and returns a security policy with the specified pinning mode.
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return A new security policy.
  */
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withPinnedCertificates:(NSSet <NSData *> *)pinnedCertificates;
++ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode withPinnedCertificates:(NSSet <NSData *> *)pinnedCertificates withCertificatesPath:(NSString *)certificatesPath;
 
 ///------------------------------
 /// @name Evaluating Server Trust
